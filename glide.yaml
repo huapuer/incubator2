@@ -1,0 +1,10 @@
+package: incubator2
+import:
+- package: engo.io/ecs
+  version: ^1.0.0
+- package: engo.io/engo
+  version: ^1.0.0
+  subpackages:
+  - common
+ignore:
+- syscall/js

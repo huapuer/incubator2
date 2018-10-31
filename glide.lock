@@ -1,0 +1,104 @@
+hash: 921d48fd54fdaea8b0f1889c69c7b7661dbb5c8bcd559a51f0059f5d8dda90b3
+updated: 2018-10-31T17:25:47.346073327+08:00
+imports:
+- name: engo.io/ecs
+  version: b9682c8e2884ca29bd106bf97b56267beba38eee
+- name: engo.io/engo
+  version: e130e5ae040cad017e9c707f6eed99c419e64799
+  subpackages:
+  - common
+  - common/internal/decode/convert
+  - common/internal/decode/mp3
+  - common/internal/decode/vorbis
+  - common/internal/decode/wav
+  - math
+- name: engo.io/gl
+  version: 23478986c46c28afa1c4bc6e52d052fe904fad22
+- name: github.com/engoengine/math
+  version: afa637dd62b55bcb27f65fe1325d81bd79b32574
+- name: github.com/go-gl/gl
+  version: 55b76b7df9d25d70b63e31a767f47158292b85d8
+  subpackages:
+  - v2.1/gl
+- name: github.com/go-gl/glfw
+  version: 691ee1b84c51ae625ed1aafebc915d3db3d63d66
+  subpackages:
+  - v3.1/glfw
+- name: github.com/go-gl/mathgl
+  version: cdf14b6b8f8a4a1bfb003dd5119205c5f711d85a
+  subpackages:
+  - mgl32
+- name: github.com/golang/freetype
+  version: e2365dfdc4a05e4b8299a783240d4a7d5a65d4e4
+  subpackages:
+  - raster
+  - truetype
+- name: github.com/gopherjs/gopherjs
+  version: 0766667cb4d1cfb8d5fde1fe210ae41ead3cf589
+  subpackages:
+  - js
+- name: github.com/gopherjs/gopherwasm
+  version: b0e1786f520333e4546f02930c5ca8a929b38841
+  subpackages:
+  - js
+- name: github.com/hajimehoshi/go-mp3
+  version: 90191ee719ddc192865cd96bdc8013ef1ed6dbea
+  subpackages:
+  - internal/bits
+  - internal/consts
+  - internal/frame
+  - internal/frameheader
+  - internal/huffman
+  - internal/imdct
+  - internal/maindata
+  - internal/sideinfo
+- name: github.com/hajimehoshi/oto
+  version: 3a9bb05c78a0583c0f5a6c041eeb05a6ceec8ef9
+- name: github.com/jfreymuth/oggvorbis
+  version: ae597dfe1dbbe0024c3ef962f9f8a8f7de3f158b
+- name: github.com/jfreymuth/vorbis
+  version: 2f16367d086d143e8e946cc5ee24618147d673dc
+- name: golang.org/x/exp
+  version: 42ba7d4b6eb299bf56fcfc4f0541a857ad0e2da3
+  subpackages:
+  - shiny/driver/gldriver
+  - shiny/driver/internal/drawer
+  - shiny/driver/internal/errscreen
+  - shiny/driver/internal/event
+  - shiny/driver/internal/lifecycler
+  - shiny/driver/internal/win32
+  - shiny/driver/internal/x11key
+  - shiny/screen
+- name: golang.org/x/image
+  version: 3210c0296b49a552ad9668ede9c61008df821b94
+  subpackages:
+  - font
+  - math/f32
+  - math/f64
+  - math/fixed
+- name: golang.org/x/mobile
+  version: a27dd33d354d004b2de14a791df5af8a00f68b8e
+  subpackages:
+  - app
+  - app/internal/callfn
+  - asset
+  - event/key
+  - event/lifecycle
+  - event/mouse
+  - event/paint
+  - event/size
+  - event/touch
+  - geom
+  - gl
+  - internal/mobileinit
+- name: golang.org/x/sys
+  version: 88eb85aaee56831ad49eaf7aa80d73de9814cde2
+  subpackages:
+  - windows
+- name: honnef.co/go/js/dom
+  version: 6da835bec70f84cd4f0c0b8a7239a9260b6bc37f
+- name: honnef.co/go/js/util
+  version: 96b8dd9d16214b6cd9d8c8e84b3a375da4688108
+- name: honnef.co/go/js/xhr
+  version: 00e3346113aed89b501ead4e863c7c3d04fa0c5b
+testImports: []
