@@ -10,6 +10,8 @@ import (
 	"engo.io/ecs"
 	"engo.io/engo"
 	"engo.io/engo/common"
+	"github.com/engoengine/math"
+	"time"
 )
 
 type PongGame struct{}
@@ -82,7 +84,10 @@ func (pong *PongGame) Setup(u engo.Updater) {
 	ball.CollisionComponent = common.CollisionComponent{
 		Main: 1,
 	}
-	ball.SpeedComponent = SpeedComponent{Point: engo.Point{300, 1000}}
+	dir := rand.Float32() * 2 * math.Pi
+	speedX := engo.GameWidth() * math.Cos(dir)
+	speedY := engo.GameWidth() * math.Sin(dir)
+	ball.SpeedComponent = SpeedComponent{Point: engo.Point{speedX, speedY}}
 
 	// Add our entity to the appropriate systems
 	for _, system := range w.Systems() {
@@ -98,24 +103,24 @@ func (pong *PongGame) Setup(u engo.Updater) {
 		}
 	}
 
-	score := Score{BasicEntity: ecs.NewBasic()}
-
-	score.RenderComponent = common.RenderComponent{Drawable: basicFont.Render(" ")}
-	score.SpaceComponent = common.SpaceComponent{
-		Position: engo.Point{100, 100},
-		Width:    100,
-		Height:   100,
-	}
-
-	// Add our entity to the appropriate systems
-	for _, system := range w.Systems() {
-		switch sys := system.(type) {
-		case *common.RenderSystem:
-			sys.Add(&score.BasicEntity, &score.RenderComponent, &score.SpaceComponent)
-		case *ScoreSystem:
-			sys.Add(&score.BasicEntity, &score.RenderComponent, &score.SpaceComponent)
-		}
-	}
+	//score := Score{BasicEntity: ecs.NewBasic()}
+	//
+	//score.RenderComponent = common.RenderComponent{Drawable: basicFont.Render(" ")}
+	//score.SpaceComponent = common.SpaceComponent{
+	//	Position: engo.Point{100, 100},
+	//	Width:    100,
+	//	Height:   100,
+	//}
+	//
+	//// Add our entity to the appropriate systems
+	//for _, system := range w.Systems() {
+	//	switch sys := system.(type) {
+	//	case *common.RenderSystem:
+	//		sys.Add(&score.BasicEntity, &score.RenderComponent, &score.SpaceComponent)
+	//	case *ScoreSystem:
+	//		sys.Add(&score.BasicEntity, &score.RenderComponent, &score.SpaceComponent)
+	//	}
+	//}
 
 	engo.Input.RegisterAxis("wasd", engo.AxisKeyPair{engo.KeyW, engo.KeyS})
 	engo.Input.RegisterAxis("arrows", engo.AxisKeyPair{engo.KeyArrowUp, engo.KeyArrowDown})
@@ -127,7 +132,7 @@ func (pong *PongGame) Setup(u engo.Updater) {
 		log.Println(err)
 	}
 
-	for i := 0; i < 2; i++ {
+	for i := 0; i < 1; i++ {
 		paddle := Paddle{BasicEntity: ecs.NewBasic()}
 		paddle.RenderComponent = common.RenderComponent{
 			Drawable: paddleTexture,
@@ -135,7 +140,7 @@ func (pong *PongGame) Setup(u engo.Updater) {
 		}
 
 		x := float32(0)
-		if i != 0 {
+		if i == 0 {
 			x = engo.GameWidth() - 16
 		}
 
@@ -144,7 +149,7 @@ func (pong *PongGame) Setup(u engo.Updater) {
 			Width:    paddle.RenderComponent.Scale.X * paddleTexture.Width(),
 			Height:   paddle.RenderComponent.Scale.Y * paddleTexture.Height(),
 		}
-		paddle.ControlComponent = ControlComponent{Scheme: schemes[i]}
+		paddle.ControlComponent = ControlComponent{Scheme: schemes[1]}
 		paddle.CollisionComponent = common.CollisionComponent{
 			Group: 1,
 		}
@@ -220,21 +225,23 @@ func (s *SpeedSystem) Remove(basic ecs.BasicEntity) {
 }
 
 func (s *SpeedSystem) Update(dt float32) {
-	speedMultiplier := float32(100)
+	//speedMultiplier := float32(100)
 
 	for _, e := range s.entities {
+		//println(dt)
+
 		e.SpaceComponent.Position.X += e.SpeedComponent.X * dt
 		e.SpaceComponent.Position.Y += e.SpeedComponent.Y * dt
 
-		var direction float32
-		if e.SpeedComponent.X > 0 {
-			direction = 1.0
-		} else {
-			direction = -1.0
-		}
+		//var direction float32
+		//if e.SpeedComponent.X > 0 {
+		//	direction = 1.0
+		//} else {
+		//	direction = -1.0
+		//}
 
-		e.SpeedComponent.X += speedMultiplier * dt * direction
-		e.SpeedComponent.Y += speedMultiplier * dt * direction
+		//e.SpeedComponent.X += speedMultiplier * dt * direction
+		//e.SpeedComponent.Y += speedMultiplier * dt * direction
 	}
 }
 
@@ -268,12 +275,15 @@ func (b *BounceSystem) Remove(basic ecs.BasicEntity) {
 func (b *BounceSystem) Update(dt float32) {
 	for _, e := range b.entities {
 		if e.SpaceComponent.Position.X < 0 {
-			engo.Mailbox.Dispatch(ScoreMessage{1})
+			//engo.Mailbox.Dispatch(ScoreMessage{1})
+			//
+			//e.SpaceComponent.Position.X = (engo.GameWidth() / 2) - 16
+			//e.SpaceComponent.Position.Y = (engo.GameHeight() / 2) - 16
+			//e.SpeedComponent.X = engo.GameWidth() * rand.Float32()
+			//e.SpeedComponent.Y = engo.GameHeight() * rand.Float32()
 
-			e.SpaceComponent.Position.X = (engo.GameWidth() / 2) - 16
-			e.SpaceComponent.Position.Y = (engo.GameHeight() / 2) - 16
-			e.SpeedComponent.X = engo.GameWidth() * rand.Float32()
-			e.SpeedComponent.Y = engo.GameHeight() * rand.Float32()
+			e.SpaceComponent.Position.X = 0
+			e.SpeedComponent.X *= -1
 		}
 
 		if e.SpaceComponent.Position.Y < 0 {
@@ -286,8 +296,9 @@ func (b *BounceSystem) Update(dt float32) {
 
 			e.SpaceComponent.Position.X = (engo.GameWidth() / 2) - 16
 			e.SpaceComponent.Position.Y = (engo.GameHeight() / 2) - 16
-			e.SpeedComponent.X = engo.GameWidth() * rand.Float32()
-			e.SpeedComponent.Y = engo.GameHeight() * rand.Float32()
+			dir := rand.Float32() * 2 * math.Pi
+			e.SpeedComponent.X = engo.GameWidth() * math.Cos(dir)
+			e.SpeedComponent.Y = engo.GameWidth() * math.Sin(dir)
 		}
 
 		if e.SpaceComponent.Position.Y > (engo.GameHeight() - 16) {
@@ -450,5 +461,6 @@ func main() {
 		Height:        800,
 		ScaleOnResize: true,
 	}
+	rand.Seed(time.Now().Unix())
 	engo.Run(opts, &PongGame{})
 }
